@@ -122,7 +122,5 @@ public class AssignmentController {
 		}
 		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
 				.cacheControl(CacheControl.noCache()).body(singleOutputArray);
-	}
-	
-	
+	}	
 }

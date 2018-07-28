@@ -1,6 +1,8 @@
 package com.springmicroservices.rest.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 
@@ -15,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,13 +34,11 @@ import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.Text;
 
 
 @RunWith(SpringRunner.class)
-//@WebMvcTest(value = AssignmentController.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-//(classes = AssignmentController.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureMockMvc(classes = AssignmentController.class)
 public class AssignmentControllerTest {
 
+	//private static final String Equilateral = "Equilateral";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -74,21 +75,45 @@ public class AssignmentControllerTest {
 	}
 	
 	@Test
-	public void checkTriangle() throws Exception {
+	public void checkTriangleEquilateral() throws Exception {
 
 		Mockito.when(checkTriangleService.checkTriangleType(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyInt())).thenReturn("Equilateral");
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-				"/api/TriangleType/a=1&b=1&c=1").accept(
-				MediaType.APPLICATION_JSON);
+				"/api/TriangleType/a=1&b=1&c=1").accept(MediaType.ALL);
+				/*MediaType.APPLICATION_JSON);*/
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		String expected = "Equilateral";		
+		assertEquals(expected,result.getResponse().getContentAsString());
+	}
+	
+	@Test
+	public void checkTriangleIsosceles() throws Exception {
 
-		System.out.println(result.getResponse());
-		String expected = "Equilateral";
-		assertEquals(expected, result.getResponse()
-				.getContentAsString(), false);
-		//JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		Mockito.when(checkTriangleService.checkTriangleType(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyInt())).thenReturn("Isosceles");
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"/api/TriangleType/a=2&b=2&c=1").accept(MediaType.ALL);
+				/*MediaType.APPLICATION_JSON);*/
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		String expected = "Isosceles";		
+		assertEquals(expected,result.getResponse().getContentAsString());
+	}
+	
+	@Test
+	public void checkTriangleScalene() throws Exception {
+
+		Mockito.when(checkTriangleService.checkTriangleType(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyInt())).thenReturn("Scalene");
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"/api/TriangleType/a=3&b=2&c=1").accept(MediaType.ALL);
+				/*MediaType.APPLICATION_JSON);*/
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		String expected = "Scalene";		
+		assertEquals(expected,result.getResponse().getContentAsString());
 	}
 	
 	@Test
@@ -97,16 +122,15 @@ public class AssignmentControllerTest {
 		Mockito.when(reverseStringService.reverseString(Mockito.anyString())).thenReturn("woh era uoy");
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-				"/api/ReverseWords?sentence=how%20are%20you").accept(
+				"/api/ReverseWords/sentence=how are you").accept(
 				MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		System.out.println(result.getResponse());
 		String expected = "woh era uoy";
-
-		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString()
-				, false);
+		assertEquals(expected,result.getResponse().getContentAsString());
+		
 	}
 	
 	/*@Test
