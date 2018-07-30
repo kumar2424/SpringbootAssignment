@@ -2,38 +2,27 @@ package com.springmicroservices.rest.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Arrays;
-
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.springmicroservices.rest.SpringMicroservicesApplication;
-import com.springmicroservices.rest.controller.AssignmentController;
 import com.springmicroservices.rest.service.CheckTriangleService;
 import com.springmicroservices.rest.service.CreateSingleArrayService;
 import com.springmicroservices.rest.service.FibonacciService;
 import com.springmicroservices.rest.service.ReverseStringService;
-import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.Text;
+
 
 
 @RunWith(SpringRunner.class)
@@ -89,6 +78,7 @@ public class AssignmentControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		String expected = "Equilateral";		
 		assertEquals(expected,result.getResponse().getContentAsString());
+		assertNotEquals(expected, "Scalene");
 	}
 	
 	@Test
@@ -103,6 +93,7 @@ public class AssignmentControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		String expected = "Isosceles";		
 		assertEquals(expected,result.getResponse().getContentAsString());
+		assertNotEquals(expected, "Scalene");
 	}
 	
 	@Test
@@ -117,6 +108,7 @@ public class AssignmentControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		String expected = "Scalene";		
 		assertEquals(expected,result.getResponse().getContentAsString());
+		assertNotEquals(expected, "Isosceles");
 	}
 	
 	@Test
