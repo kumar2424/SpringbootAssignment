@@ -8,22 +8,20 @@ import org.springframework.stereotype.Service;
 public class ReverseStringService {
 	private static final Logger log = LoggerFactory.getLogger(ReverseStringService.class);
 	
-	StringBuilder reverseWord = new StringBuilder();	
+	StringBuilder reverseWord=null;
 	
 	public String reverseString(String stringToBeReversed) {
 		String[] wordsInSentence = stringToBeReversed.split("[[ ]*|[//.]]");	
 		
-		
+		reverseWord = new StringBuilder();
 		for (int i = 0; i < wordsInSentence.length; i++) {
-			String wordInString=wordsInSentence[i];		
-			log.info("Word array is ", wordsInSentence[i]);
-			
-			for (int j = wordsInSentence.length - 1; j >= 0; j--) {				
+			String wordInString=wordsInSentence[i];
+			for (int j = wordsInSentence[i].length() - 1; j >= 0; j--) {				
 				reverseWord=reverseWord.append(wordInString.charAt(j));
 			}			
 			reverseWord=reverseWord.append(" ");
 		}
-		log.info(reverseWord.toString());
+		log.info("Reveresed Word is "+reverseWord.toString());
 		return reverseWord.toString();
 	}
 }

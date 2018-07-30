@@ -1,6 +1,7 @@
 package com.springmicroservices.rest.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,6 +17,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -130,6 +133,7 @@ public class AssignmentControllerTest {
 		System.out.println(result.getResponse());
 		String expected = "woh era uoy";
 		assertEquals(expected,result.getResponse().getContentAsString());
+		assertNotEquals(expected, "how are you ");
 		
 	}
 	
@@ -137,9 +141,9 @@ public class AssignmentControllerTest {
 	public void makeOneArray() throws Exception {
 		Course mockCourse = new Course("1", "Smallest Number", "1",
 				Arrays.asList("1", "2", "3", "4"));
-		JSONObject singleArrayResponse="{\"array\":[1,2,3,4,5,6,11]}";
+		//JSONObject singleArrayResponse="{\"array\":[1,2,3,4,5,6,11]}";
 		// studentService.addCourse to respond back with mockCourse
-		Mockito.when(createSingleArrayService.createSingleArray(Mockito.any())).thenReturn(singleArrayResponse);
+		Mockito.when(createSingleArrayService.createSingleArray(Mockito.any())).thenReturn("{\"array\":[1,2,3,4,5,6,11]}");
 
 		// Send course as body to /students/Student1/courses
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
